@@ -8,6 +8,7 @@ use App\Models\Patient;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -30,8 +31,12 @@ class PatientResource extends Resource
                         'dog' => 'Dog',
                         'rabbit' => 'Rabbit',
                     ])
-                    ->live()
                     ->searchable()
+                    ->preload()
+                    ->afterStateUpdated(function (Set $set) {
+                        $set('type2', '');
+                    })
+                    ->live()
                     ->required(),
                 Forms\Components\Select::make('type2')
                     ->options([
@@ -39,35 +44,7 @@ class PatientResource extends Resource
                         'dog2' => 'Dog2',
                         'rabbit2' => 'Rabbit2',
                     ])
-                    ->searchable()
-                    ->disabled(function (Get $get) {
-                        return $get('type') === null;
-                    }),
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                    Forms\Components\DatePicker::make('date_of_birth')
-                    ->required()
-                    ->maxDate(now()),
-                Forms\Components\Select::make('owner_id')
-                    ->relationship('owner', 'name')
-                    ->searchable()
-                    ->preload()
-                    ->createOptionForm([
-                        Forms\Components\TextInput::make('name')
-                            ->required()
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('email')
-                            ->label('Email address')
-                            ->email()
-                            ->required()
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('phone')
-                            ->label('Phone number')
-                            ->tel()
-                            ->required(),
-                    ])
-                    ->required()
+                    ->searchable(),
             ]);
     }
 
