@@ -7,8 +7,6 @@ use App\Filament\Resources\PatientResource\RelationManagers;
 use App\Models\Patient;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -25,26 +23,18 @@ class PatientResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('type')
-                    ->options([
-                        'cat' => 'Cat',
-                        'dog' => 'Dog',
-                        'rabbit' => 'Rabbit',
-                    ])
-                    ->searchable()
-                    ->preload()
-                    ->afterStateUpdated(function (Set $set) {
-                        $set('type2', '');
-                    })
-                    ->live()
+                Forms\Components\Select::make('owner_id')
+                    ->relationship('owner', 'name')
                     ->required(),
-                Forms\Components\Select::make('type2')
-                    ->options([
-                        'cat2' => 'Cat2',
-                        'dog2' => 'Dog2',
-                        'rabbit2' => 'Rabbit2',
-                    ])
-                    ->searchable(),
+                Forms\Components\DatePicker::make('date_of_birth')
+                    ->required(),
+                Forms\Components\TextInput::make('name')
+                    ->required()
+                    ->unique(ignoreRecord: true)
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('type')
+                    ->required()
+                    ->maxLength(255),
             ]);
     }
 
@@ -52,21 +42,25 @@ class PatientResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('owner.name')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('date_of_birth')
+                    ->date()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('type'),
-                Tables\Columns\TextColumn::make('date_of_birth')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('owner.name')
+                Tables\Columns\TextColumn::make('type')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('type')
-                    ->options([
-                        'cat' => 'Cat',
-                        'dog' => 'Dog',
-                        'rabbit' => 'Rabbit',
-                    ]),
+                //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
