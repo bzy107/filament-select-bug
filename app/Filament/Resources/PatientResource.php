@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Imports\PatientImporter;
 use App\Filament\Resources\PatientResource\Pages;
 use App\Filament\Resources\PatientResource\RelationManagers;
 use App\Models\Patient;
@@ -23,6 +24,8 @@ class PatientResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\TextInput::make('id')
+                    ->disabled(),
                 Forms\Components\Select::make('owner_id')
                     ->relationship('owner', 'name')
                     ->required(),
@@ -61,6 +64,10 @@ class PatientResource extends Resource
             ])
             ->filters([
                 //
+            ])
+            ->headerActions([
+                Tables\Actions\ImportAction::make()
+                    ->importer(PatientImporter::class),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
