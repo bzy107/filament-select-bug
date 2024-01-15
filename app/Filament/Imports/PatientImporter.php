@@ -33,7 +33,6 @@ class PatientImporter extends Importer
                     [
                         'required',
                         'max:255',
-                        Rule::unique(Patient::class),
                     ]
                 ),
             ImportColumn::make('type')
