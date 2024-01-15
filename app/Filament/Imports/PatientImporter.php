@@ -17,11 +17,13 @@ class PatientImporter extends Importer
     {
         return [
             ImportColumn::make('id')
-                ->rules(['integer', 'nullable']),
-            ImportColumn::make('owner')
-                ->requiredMapping()
-                ->relationship()
-                ->rules(['required']),
+                ->rules(
+                    [
+                        'nullable',
+                        'integer',
+                        'exists:App\Models\Patient',
+                    ]
+                ),
             ImportColumn::make('date_of_birth')
                 ->requiredMapping()
                 ->rules(['required', 'date']),
