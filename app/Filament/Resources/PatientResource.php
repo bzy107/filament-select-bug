@@ -26,9 +26,6 @@ class PatientResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('id')
                     ->disabled(),
-                Forms\Components\Select::make('owner_id')
-                    ->relationship('owner', 'name')
-                    ->required(),
                 Forms\Components\DatePicker::make('date_of_birth')
                     ->required(),
                 Forms\Components\TextInput::make('name')
@@ -45,9 +42,6 @@ class PatientResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('owner.name')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('date_of_birth')
                     ->date()
                     ->sortable(),

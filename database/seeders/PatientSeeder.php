@@ -14,10 +14,6 @@ class PatientSeeder extends Seeder
      */
     public function run(): void
     {
-        foreach (Owner::all() as $owner) {
-            Patient::factory()->create([
-                'owner_id' => $owner->id,
-            ]);
-        }
+        Patient::factory(10)->create();
     }
 }

@@ -11,10 +11,11 @@ class Patient extends Model
 {
     use HasFactory;
 
-    public function owner(): BelongsTo
-    {
-        return $this->belongsTo(Owner::class);
-    }
+    protected $fillable = [
+        'date_of_birth',
+        'name',
+        'type',
+    ];
 
     public function treatments(): HasMany
     {
