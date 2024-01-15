@@ -3,6 +3,7 @@
 namespace App\Filament\Imports;
 
 use App\Models\Patient;
+use Carbon\CarbonInterface;
 use Filament\Actions\Imports\ImportColumn;
 use Filament\Actions\Imports\Importer;
 use Filament\Actions\Imports\Models\Import;
@@ -55,5 +56,10 @@ class PatientImporter extends Importer
         }
 
         return $body;
+    }
+
+    public function getJobRetryUntil(): CarbonInterface
+    {
+        return now()->addSeconds(3);
     }
 }
