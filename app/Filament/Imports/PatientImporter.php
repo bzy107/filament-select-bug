@@ -30,9 +30,12 @@ class PatientImporter extends Importer
             ImportColumn::make('name')
                 ->requiredMapping()
                 ->rules(
+                    fn ($record) =>
                     [
                         'required',
                         'max:255',
+                        Rule::unique(Patient::class)
+                            ->ignore($record->id),
                     ]
                 ),
             ImportColumn::make('type')
