@@ -59,8 +59,8 @@ class PatientImporter extends Importer
         return $body;
     }
 
-    public function getJobRetryUntil(): CarbonInterface
+    public function getJobRetryUntil(): ?CarbonInterface
     {
-        return now()->addSeconds(3);
+        return null;
     }
 }
