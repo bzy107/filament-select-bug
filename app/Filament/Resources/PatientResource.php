@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Exports\PatientExporter;
 use App\Filament\Imports\PatientImporter;
 use App\Filament\Resources\PatientResource\Pages;
 use App\Filament\Resources\PatientResource\RelationManagers;
@@ -62,6 +63,8 @@ class PatientResource extends Resource
             ->headerActions([
                 Tables\Actions\ImportAction::make()
                     ->importer(PatientImporter::class),
+                Tables\Actions\ExportAction::make()
+                    ->exporter(PatientExporter::class),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
