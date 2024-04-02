@@ -14,10 +14,8 @@ class PatientExporter extends Exporter
     public static function getColumns(): array
     {
         return [
-            ExportColumn::make('id')
-                ->label('ID'),
-            ExportColumn::make('date_of_birth')
-                ->label('BIRTH'),
+            ExportColumn::make('id'),
+            ExportColumn::make('date_of_birth'),
             ExportColumn::make('name'),
             ExportColumn::make('type'),
             ExportColumn::make('created_at'),

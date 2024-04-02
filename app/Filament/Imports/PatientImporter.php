@@ -7,6 +7,8 @@ use Carbon\CarbonInterface;
 use Filament\Actions\Imports\ImportColumn;
 use Filament\Actions\Imports\Importer;
 use Filament\Actions\Imports\Models\Import;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 class PatientImporter extends Importer
@@ -21,7 +23,8 @@ class PatientImporter extends Importer
                     [
                         'nullable',
                         'integer',
-                        'exists:App\Models\Patient',
+                        Rule::exists(Patient::class, 'id')
+                            ->whereNull('deleted_at'),
                     ]
                 ),
             ImportColumn::make('date_of_birth')
@@ -35,6 +38,7 @@ class PatientImporter extends Importer
                         'required',
                         'max:255',
                         Rule::unique(Patient::class)
+                            ->whereNull('deleted_at')
                             ->ignore($record->id),
                     ]
                 ),
@@ -65,5 +69,19 @@ class PatientImporter extends Importer
     public function getJobRetryUntil(): ?CarbonInterface
     {
         return null;
+    }
+
+    public function beforeSave(): void
+    {
+        Validator::make(
+            $this->data,
+            [
+                'name.unique' => [
+                    Rule::unique(Patient::class)
+                        ->ignore($this->data['id']),
+                ],
+            ]
+        )
+            ->validate();
     }
 }
