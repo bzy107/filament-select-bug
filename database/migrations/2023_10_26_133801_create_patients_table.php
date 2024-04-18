@@ -16,6 +16,7 @@ return new class extends Migration
             $table->date('date_of_birth');
             $table->string('name')->unique();
             $table->string('type');
+            $table->boolean('has_recovered')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });
