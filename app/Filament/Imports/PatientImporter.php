@@ -45,6 +45,9 @@ class PatientImporter extends Importer
             ImportColumn::make('type')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
+            ImportColumn::make('has_recovered')
+                ->requiredMapping()
+                ->rules(['required', 'boolean'])
         ];
     }
 

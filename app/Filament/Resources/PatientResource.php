@@ -36,6 +36,10 @@ class PatientResource extends Resource
                 Forms\Components\TextInput::make('type')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\ToggleButtons::make('has_recovered')
+                    ->required()
+                    ->boolean()
+                    ->inline()
             ]);
     }
 
@@ -50,6 +54,9 @@ class PatientResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('type')
                     ->searchable(),
+                Tables\Columns\IconColumn::make('has_recovered')
+                    ->boolean()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable(),

@@ -18,6 +18,7 @@ class PatientExporter extends Exporter
             ExportColumn::make('date_of_birth'),
             ExportColumn::make('name'),
             ExportColumn::make('type'),
+            ExportColumn::make('has_recovered'),
             ExportColumn::make('created_at'),
             ExportColumn::make('updated_at'),
         ];
