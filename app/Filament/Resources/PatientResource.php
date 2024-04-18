@@ -40,6 +40,7 @@ class PatientResource extends Resource
                     ->required()
                     ->boolean()
                     ->inline()
+                    ->grouped()
             ]);
     }
 
