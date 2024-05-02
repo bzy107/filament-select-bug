@@ -14,13 +14,18 @@ class PatientExporter extends Exporter
     public static function getColumns(): array
     {
         return [
-            ExportColumn::make('id'),
-            ExportColumn::make('date_of_birth'),
-            ExportColumn::make('name'),
-            ExportColumn::make('type'),
-            ExportColumn::make('has_recovered'),
-            ExportColumn::make('created_at'),
-            ExportColumn::make('updated_at'),
+            ExportColumn::make('id')
+                ->label('ID'),
+            ExportColumn::make('date_of_birth')
+                ->label('誕生日'),
+            ExportColumn::make('name')
+                ->label('名前'),
+            ExportColumn::make('type')
+                ->label('タイプ'),
+            ExportColumn::make('has_recovered')
+                ->label('回復済み'),
+            // ExportColumn::make('created_at'),
+            // ExportColumn::make('updated_at'),
         ];
     }
 

@@ -7,7 +7,6 @@ use Carbon\CarbonInterface;
 use Filament\Actions\Imports\ImportColumn;
 use Filament\Actions\Imports\Importer;
 use Filament\Actions\Imports\Models\Import;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -19,6 +18,8 @@ class PatientImporter extends Importer
     {
         return [
             ImportColumn::make('id')
+                ->label('ID')
+                ->exampleHeader('ID')
                 ->rules(
                     [
                         'nullable',
@@ -28,9 +29,13 @@ class PatientImporter extends Importer
                     ]
                 ),
             ImportColumn::make('date_of_birth')
+                ->label('誕生日')
+                ->exampleHeader('誕生日')
                 ->requiredMapping()
                 ->rules(['required', 'date']),
             ImportColumn::make('name')
+                ->label('名前')
+                ->exampleHeader('名前')
                 ->requiredMapping()
                 ->rules(
                     fn ($record) =>
@@ -43,11 +48,21 @@ class PatientImporter extends Importer
                     ]
                 ),
             ImportColumn::make('type')
+                ->label('タイプ')
+                ->exampleHeader('タイプ')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
             ImportColumn::make('has_recovered')
+                ->label('回復済み')
+                ->exampleHeader('回復済み')
                 ->requiredMapping()
                 ->rules(['required', 'boolean'])
+                ->castStateUsing(function ($state) {
+                    if ($state === 'true' || $state === 'false') {
+                        return $state === 'true';
+                    }
+                    return 'string';
+                })
         ];
     }
 
