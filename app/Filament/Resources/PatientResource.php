@@ -83,7 +83,8 @@ class PatientResource extends Resource
                     Tables\Actions\ExportBulkAction::make()
                         ->exporter(PatientExporter::class),
                 ]),
-            ]);
+            ])
+            ->selectCurrentPageOnly();
     }
 
     public static function getRelations(): array
