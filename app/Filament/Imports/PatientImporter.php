@@ -29,13 +29,13 @@ class PatientImporter extends Importer
                     ]
                 ),
             ImportColumn::make('date_of_birth')
-                ->label('誕生日')
-                ->exampleHeader('誕生日')
+                ->label('DATA_OF_BIRTH')
+                ->exampleHeader('DATA_OF_BIRTH')
                 ->requiredMapping()
                 ->rules(['required', 'date']),
             ImportColumn::make('name')
-                ->label('名前')
-                ->exampleHeader('名前')
+                ->label('NAME')
+                ->exampleHeader('NAME')
                 ->requiredMapping()
                 ->rules(
                     fn ($record) =>
@@ -48,13 +48,13 @@ class PatientImporter extends Importer
                     ]
                 ),
             ImportColumn::make('type')
-                ->label('タイプ')
-                ->exampleHeader('タイプ')
+                ->label('TYPE')
+                ->exampleHeader('TYPE')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
             ImportColumn::make('has_recovered')
-                ->label('回復済み')
-                ->exampleHeader('回復済み')
+                ->label('HAS_RECOVERED')
+                ->exampleHeader('HAS_RECOVERED')
                 ->requiredMapping()
                 ->rules(['required', 'boolean'])
                 ->castStateUsing(function ($state) {

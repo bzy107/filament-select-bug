@@ -17,15 +17,13 @@ class PatientExporter extends Exporter
             ExportColumn::make('id')
                 ->label('ID'),
             ExportColumn::make('date_of_birth')
-                ->label('誕生日'),
+                ->label('DATA_OF_BIRTH'),
             ExportColumn::make('name')
-                ->label('名前'),
+                ->label('NAME'),
             ExportColumn::make('type')
-                ->label('タイプ'),
+                ->label('TYPE'),
             ExportColumn::make('has_recovered')
-                ->label('回復済み'),
-            // ExportColumn::make('created_at'),
-            // ExportColumn::make('updated_at'),
+                ->label('HAS_RECOVERED'),
         ];
     }
 
