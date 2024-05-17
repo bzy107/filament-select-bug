@@ -38,8 +38,7 @@ class PatientImporter extends Importer
                 ->exampleHeader('NAME')
                 ->requiredMapping()
                 ->rules(
-                    fn ($record) =>
-                    [
+                    fn ($record) => [
                         'required',
                         'max:255',
                         Rule::unique(Patient::class)
@@ -61,8 +60,9 @@ class PatientImporter extends Importer
                     if ($state === 'true' || $state === 'false') {
                         return $state === 'true';
                     }
+
                     return 'string';
-                })
+                }),
         ];
     }
 

@@ -12,8 +12,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PatientResource extends Resource
 {
@@ -40,7 +38,7 @@ class PatientResource extends Resource
                     ->required()
                     ->boolean()
                     ->inline()
-                    ->grouped()
+                    ->grouped(),
             ]);
     }
 
@@ -63,7 +61,7 @@ class PatientResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
-                    ->sortable()
+                    ->sortable(),
             ])
             ->filters([
                 //
