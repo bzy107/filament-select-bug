@@ -3,6 +3,7 @@
 namespace App\Filament\Exports;
 
 use App\Models\Patient;
+use Filament\Actions\Exports\Enums\ExportFormat;
 use Filament\Actions\Exports\ExportColumn;
 use Filament\Actions\Exports\Exporter;
 use Filament\Actions\Exports\Models\Export;
@@ -23,7 +24,10 @@ class PatientExporter extends Exporter
             ExportColumn::make('type')
                 ->label('TYPE'),
             ExportColumn::make('has_recovered')
-                ->label('HAS_RECOVERED'),
+                ->label('HAS_RECOVERED')
+                ->formatStateUsing(function (string $state): string {
+                    return (string) $state ? 'true' : 'false';
+                }),
         ];
     }
 
@@ -36,5 +40,12 @@ class PatientExporter extends Exporter
         }
 
         return $body;
+    }
+
+    public function getFormats(): array
+    {
+        return [
+            ExportFormat::Csv,
+        ];
     }
 }

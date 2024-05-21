@@ -56,12 +56,12 @@ class PatientImporter extends Importer
                 ->exampleHeader('HAS_RECOVERED')
                 ->requiredMapping()
                 ->rules(['required', 'boolean'])
-                ->castStateUsing(function ($state) {
+                ->castStateUsing(function ($state): string | null | bool {
                     if ($state === 'true' || $state === 'false') {
                         return $state === 'true';
                     }
 
-                    return 'string';
+                    return $state !== '' ? 'string' : null;
                 }),
         ];
     }
