@@ -22,6 +22,7 @@ class PatientFactory extends Factory
             'date_of_birth' => fake()->dateTimeBetween('-10year', '-5year'),
             'name' => fake()->unique()->firstName(),
             'type' => fake()->randomElement(['cat', 'dog', 'rabbit']),
+            'has_recovered' => fake()->boolean(),
         ];
     }
 }
