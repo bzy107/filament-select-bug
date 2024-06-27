@@ -15,6 +15,14 @@ class Treatment extends Model
         'price' => MoneyCast::class,
     ];
 
+    protected $fillable = [
+        'description',
+        'notes',
+        'patient_id',
+        'price',
+        'has_prescription',
+    ];
+
     public function patient(): BelongsTo
     {
         return $this->belongsTo(Patient::class);

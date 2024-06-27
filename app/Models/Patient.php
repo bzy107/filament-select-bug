@@ -16,6 +16,7 @@ class Patient extends Model
         'date_of_birth',
         'name',
         'type',
+        'has_recovered',
     ];
 
     public function treatments(): HasMany

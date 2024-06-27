@@ -23,6 +23,15 @@ class TreatmentsRelationManager extends RelationManager
                 Forms\Components\Textarea::make('notes')
                     ->maxLength(65535)
                     ->columnSpan('full'),
+                Forms\Components\ToggleButtons::make('has_prescription')
+                    ->required()
+                    ->boolean()
+                    ->options([
+                        0 => 'いいえ',
+                        1 => 'はい',
+                    ])
+                    ->inline()
+                    ->grouped(),
                 Forms\Components\TextInput::make('price')
                     ->numeric()
                     ->prefix('€')
@@ -41,6 +50,9 @@ class TreatmentsRelationManager extends RelationManager
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime(),
+                Tables\Columns\IconColumn::make('has_prescription')
+                    ->boolean()
+                    ->sortable(),
             ])
             ->filters([
                 //

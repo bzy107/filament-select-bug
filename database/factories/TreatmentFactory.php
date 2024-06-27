@@ -22,6 +22,7 @@ class TreatmentFactory extends Factory
             'notes' => fake()->unique()->sentence(),
             'patient_id' => Patient::factory(),
             'price' => fake()->numberBetween(1, 1000),
+            'has_prescription' => fake()->boolean(),
         ];
     }
 }

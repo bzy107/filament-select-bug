@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
                 UserSeeder::class,
                 OwnerSeeder::class,
                 PatientSeeder::class,
-                // TreatmentSeeder::class,
+                TreatmentSeeder::class,
             ]
         );
     }
