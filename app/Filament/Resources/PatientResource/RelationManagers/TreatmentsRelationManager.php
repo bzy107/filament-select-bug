@@ -16,26 +16,45 @@ class TreatmentsRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('description')
-                    ->required()
-                    ->maxLength(255)
-                    ->columnSpan('full'),
-                Forms\Components\Textarea::make('notes')
-                    ->maxLength(65535)
-                    ->columnSpan('full'),
-                Forms\Components\ToggleButtons::make('has_prescription')
-                    ->required()
-                    ->boolean()
-                    ->options([
-                        0 => 'いいえ',
-                        1 => 'はい',
-                    ])
-                    ->inline()
-                    ->grouped(),
-                Forms\Components\TextInput::make('price')
-                    ->numeric()
-                    ->prefix('€')
-                    ->maxValue(42949672.95),
+                Forms\Components\TextInput::make('id')
+                    ->label('aiu')
+                    ->disabled(),
+                Forms\Components\Section::make()
+                    ->schema([
+                        Forms\Components\TextInput::make('description')
+                            ->label('aiu')
+                            ->required()
+                            ->maxLength(255)
+                            ->columnSpan('full'),
+                        Forms\Components\Textarea::make('notes')
+                            ->label('aiu')
+                            ->maxLength(65535)
+                            ->columnSpan('full'),
+                        Forms\Components\ToggleButtons::make('has_prescription')
+                            ->label('aiu')
+                            ->required()
+                            ->boolean()
+                            ->options([
+                                0 => 'いいえ',
+                                1 => 'はい',
+                            ])
+                            ->inline()
+                            ->grouped(),
+                        Forms\Components\TextInput::make('price')
+                            ->label('aiu')
+                            ->integer()
+                            ->prefix('€')
+                            ->maxValue(42949672.95),
+                    ]),
+                Forms\Components\Section::make()
+                    ->schema([
+                        Forms\Components\TextInput::make('created_at')
+                            ->label('aiu')
+                            ->disabled(),
+                        Forms\Components\TextInput::make('updated_at')
+                            ->label('aiu')
+                            ->disabled(),
+                    ]),
             ]);
     }
 
