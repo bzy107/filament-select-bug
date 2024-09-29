@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedInteger('price')->nullable();
             $table->boolean('has_prescription')->default(false);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
