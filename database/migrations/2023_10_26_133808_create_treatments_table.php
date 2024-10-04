@@ -18,8 +18,8 @@ return new class extends Migration
             $table->foreignId('patient_id')->constrained('patients')->cascadeOnDelete();
             $table->unsignedInteger('price')->nullable();
             $table->boolean('has_prescription')->default(false);
+            $table->boolean('is_valid')->default(true);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
