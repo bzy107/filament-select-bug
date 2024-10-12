@@ -6,7 +6,6 @@ use App\Models\Traits\IsValid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Patient extends Model
 {
@@ -18,6 +17,7 @@ class Patient extends Model
         'name',
         'type',
         'has_recovered',
+        'is_valid',
     ];
 
     public function treatments(): HasMany

@@ -23,6 +23,7 @@ class TreatmentFactory extends Factory
             'patient_id' => Patient::factory(),
             'price' => fake()->numberBetween(1, 1000),
             'has_prescription' => fake()->boolean(),
+            'is_valid' => true,
         ];
     }
 }

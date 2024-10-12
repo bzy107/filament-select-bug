@@ -23,6 +23,7 @@ class PatientFactory extends Factory
             'name' => fake()->unique()->firstName(),
             'type' => fake()->randomElement(['cat', 'dog', 'rabbit']),
             'has_recovered' => fake()->boolean(),
+            'is_valid' => true,
         ];
     }
 }
