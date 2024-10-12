@@ -14,10 +14,6 @@ class TreatmentSeeder extends Seeder
      */
     public function run(): void
     {
-        foreach (Patient::all() as $patient) {
-            Treatment::factory()->create([
-                'patient_id' => $patient->id,
-            ]);
-        }
+        Treatment::factory(10)->create();
     }
 }
