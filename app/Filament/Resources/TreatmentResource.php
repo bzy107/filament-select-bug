@@ -2,17 +2,19 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
-use Filament\Tables;
-use Filament\Forms\Form;
-use App\Models\Treatment;
-use Filament\Tables\Table;
-use Filament\Resources\Resource;
-use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Exports\TreatmentExporter;
 use App\Filament\Resources\TreatmentResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\TreatmentResource\RelationManagers;
+use App\Models\Treatment;
+use Filament\Forms;
+use Filament\Forms\Form;
+use Filament\Resources\Resource;
+use Filament\Tables;
+use Filament\Tables\Filters\QueryBuilder;
+use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class TreatmentResource extends Resource
 {
@@ -67,9 +69,21 @@ class TreatmentResource extends Resource
                     ->dateTime()
                     ->sortable(),
             ])
-            ->filters([
-                //
-            ])
+            ->filters(
+                [
+                    QueryBuilder::make()
+                        ->constraints(
+                            [
+                                TextConstraint::make('description')
+                                    ->label('description'),
+                                TextConstraint::make('notes')
+                                    ->label('notes'),
+                            ]
+                        )
+                        ->constraintPickerColumns(3),
+                    ],
+                    layout: Tables\Enums\FiltersLayout::AboveContentCollapsible
+            )
             ->headerActions([
                 Tables\Actions\ExportAction::make()
                     ->exporter(TreatmentExporter::class),
