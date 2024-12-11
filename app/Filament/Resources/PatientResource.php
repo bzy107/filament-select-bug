@@ -50,7 +50,8 @@ class PatientResource extends Resource
                     ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('type')
                     ->searchable(),
                 Tables\Columns\IconColumn::make('has_recovered')
@@ -64,7 +65,7 @@ class PatientResource extends Resource
                     ->sortable(),
             ])
             ->filters([
-                //
+                Tables\Filters\TernaryFilter::make('has_recovered')
             ])
             ->headerActions([
                 Tables\Actions\ImportAction::make()

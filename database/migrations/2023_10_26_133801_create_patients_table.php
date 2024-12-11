@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('type');
             $table->boolean('has_recovered')->default(false);
+            $table->boolean('is_valid')->default(true);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
