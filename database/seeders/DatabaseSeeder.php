@@ -18,6 +18,9 @@ class DatabaseSeeder extends Seeder
                 OwnerSeeder::class,
                 PatientSeeder::class,
                 TreatmentSeeder::class,
+                ItemSeeder::class,
+                OrderSeeder::class,
+                ItemOrderSeeder::class,
             ]
         );
     }
