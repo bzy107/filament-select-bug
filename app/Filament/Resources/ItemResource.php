@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ItemResource\Pages;
 use App\Filament\Resources\ItemResource\RelationManagers;
+use App\Filament\Resources\ItemResource\RelationManagers\OrderRelationManager;
 use App\Models\Item;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -30,8 +31,6 @@ class ItemResource extends Resource
                     ->required()
                     ->numeric()
                     ->prefix('$'),
-                Forms\Components\Toggle::make('is_valid')
-                    ->required(),
             ]);
     }
 
@@ -67,7 +66,7 @@ class ItemResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            OrderRelationManager::class
         ];
     }
 

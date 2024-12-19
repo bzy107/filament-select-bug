@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
                 TreatmentSeeder::class,
                 ItemSeeder::class,
                 OrderSeeder::class,
-                ItemOrderSeeder::class,
+                // ItemOrderSeeder::class,
             ]
         );
     }
