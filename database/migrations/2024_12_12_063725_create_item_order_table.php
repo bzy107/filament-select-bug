@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('item_order', function (Blueprint $table) {
             $table->unsignedBigInteger('item_id');
             $table->unsignedBigInteger('order_id');
+            $table->string('memo')->nullable();
             $table->boolean('is_valid')->default(true);
             $table->timestamps();
 

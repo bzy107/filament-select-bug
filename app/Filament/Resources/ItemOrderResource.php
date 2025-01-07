@@ -25,7 +25,12 @@ class ItemOrderResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('item.id')
+                    ->disabled(),
+                Forms\Components\TextInput::make('order.id')
+                    ->disabled(),
+                Forms\Components\TextInput::make('memo')
+                    ->nullable(),
             ]);
     }
 
@@ -38,6 +43,8 @@ class ItemOrderResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('order.id')
                     ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('memo')
                     ->sortable(),
             ])
             ->filters([
@@ -52,7 +59,7 @@ class ItemOrderResource extends Resource
                     ->chunkSize(2),
             ])
             ->actions([
-                //
+                Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 //
@@ -70,6 +77,7 @@ class ItemOrderResource extends Resource
     {
         return [
             'index' => Pages\ListItemOrders::route('/'),
+            'edit' => Pages\EditItemOrder::route('/{record}/edit'),
         ];
     }
 }

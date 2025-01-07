@@ -16,7 +16,7 @@ class ItemOrderExporter extends Exporter
         return [
             ExportColumn::make('item_id'),
             ExportColumn::make('order_id'),
-            
+            ExportColumn::make('memo'),
         ];
     }
 
