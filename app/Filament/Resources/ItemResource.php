@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ItemResource\Pages;
 use App\Filament\Resources\ItemResource\RelationManagers;
+use App\Filament\Resources\ItemResource\RelationManagers\OrderRelationManager;
 use App\Models\Item;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -41,6 +42,7 @@ class ItemResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->limit(10)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('price')
                     ->money()
@@ -57,7 +59,7 @@ class ItemResource extends Resource
                     ->constraints([
                         TextConstraint::make('name'),
                     ]),
-            ], layout: FiltersLayout::AboveContent)
+                ], layout: FiltersLayout::AboveContent)
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
@@ -72,7 +74,7 @@ class ItemResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            OrderRelationManager::class
         ];
     }
 
