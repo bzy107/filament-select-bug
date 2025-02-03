@@ -57,7 +57,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->sidebarWidth('auto')
             ->sidebarCollapsibleOnDesktop()
-            ->collapsedSidebarWidth('auto')
-            ->databaseNotifications();
+            ->collapsedSidebarWidth('auto');
+            // ->databaseNotifications();
     }
 }
