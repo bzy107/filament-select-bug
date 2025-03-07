@@ -11,6 +11,10 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\QueryBuilder;
+use Filament\Tables\Filters\QueryBuilder\Constraints\BooleanConstraint;
+use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Table;
 
 class PatientResource extends Resource
@@ -67,8 +71,13 @@ class PatientResource extends Resource
                     ->sortable(),
             ])
             ->filters([
-                Tables\Filters\TernaryFilter::make('has_recovered')
-            ])
+                QueryBuilder::make()
+                    ->constraints([
+                        TextConstraint::make('name'),
+                        TextConstraint::make('type'),
+                        BooleanConstraint::make('has_recovered'),
+                    ]),
+            ], layout: FiltersLayout::AboveContent)
             ->headerActions([
                 Tables\Actions\ImportAction::make()
                     ->importer(PatientImporter::class),
@@ -76,7 +85,9 @@ class PatientResource extends Resource
                     ->exporter(PatientExporter::class),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -100,7 +111,7 @@ class PatientResource extends Resource
         return [
             'index' => Pages\ListPatients::route('/'),
             'create' => Pages\CreatePatient::route('/create'),
-            'edit' => Pages\EditPatient::route('/{record}/edit'),
+            // 'edit' => Pages\EditPatient::route('/{record}/edit'),
         ];
     }
 }

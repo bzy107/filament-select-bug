@@ -77,7 +77,8 @@ class TreatmentResource extends Resource
                                 TextConstraint::make('description')
                                     ->label('description'),
                                 TextConstraint::make('notes')
-                                    ->label('notes'),
+                                    ->label('notes')
+                                    // ->nullable(),
                             ]
                         )
                         ->constraintPickerColumns(3),
