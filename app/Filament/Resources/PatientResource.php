@@ -2,13 +2,29 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\ToggleButtons;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Actions\ImportAction;
+use Filament\Actions\ExportAction;
+use Filament\Actions\ViewAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\ExportBulkAction;
+use App\Filament\Resources\PatientResource\RelationManagers\TreatmentsRelationManager;
+use App\Filament\Resources\PatientResource\Pages\ListPatients;
+use App\Filament\Resources\PatientResource\Pages\CreatePatient;
 use App\Filament\Exports\PatientExporter;
 use App\Filament\Imports\PatientImporter;
 use App\Filament\Resources\PatientResource\Pages;
 use App\Filament\Resources\PatientResource\RelationManagers;
 use App\Models\Patient;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Enums\FiltersLayout;
@@ -21,24 +37,24 @@ class PatientResource extends Resource
 {
     protected static ?string $model = Patient::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('id')
+        return $schema
+            ->components([
+                TextInput::make('id')
                     ->disabled(),
-                Forms\Components\DatePicker::make('date_of_birth')
+                DatePicker::make('date_of_birth')
                     ->required(),
-                Forms\Components\TextInput::make('name')
+                TextInput::make('name')
                     ->required()
                     ->unique(ignoreRecord: true)
                     ->maxLength(255),
-                Forms\Components\TextInput::make('type')
+                TextInput::make('type')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\ToggleButtons::make('has_recovered')
+                ToggleButtons::make('has_recovered')
                     ->required()
                     ->boolean()
                     ->inline()
@@ -50,23 +66,23 @@ class PatientResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')
+                TextColumn::make('id')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('date_of_birth')
+                TextColumn::make('date_of_birth')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('type')
+                TextColumn::make('type')
                     ->searchable(),
-                Tables\Columns\IconColumn::make('has_recovered')
+                IconColumn::make('has_recovered')
                     ->boolean()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable(),
             ])
@@ -79,20 +95,20 @@ class PatientResource extends Resource
                     ]),
             ], layout: FiltersLayout::AboveContent)
             ->headerActions([
-                Tables\Actions\ImportAction::make()
+                ImportAction::make()
                     ->importer(PatientImporter::class),
-                Tables\Actions\ExportAction::make()
+                ExportAction::make()
                     ->exporter(PatientExporter::class),
             ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                ViewAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ExportBulkAction::make()
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                    ExportBulkAction::make()
                         ->exporter(PatientExporter::class),
                 ]),
             ])
@@ -102,15 +118,15 @@ class PatientResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagers\TreatmentsRelationManager::class,
+            TreatmentsRelationManager::class,
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPatients::route('/'),
-            'create' => Pages\CreatePatient::route('/create'),
+            'index' => ListPatients::route('/'),
+            'create' => CreatePatient::route('/create'),
             // 'edit' => Pages\EditPatient::route('/{record}/edit'),
         ];
     }

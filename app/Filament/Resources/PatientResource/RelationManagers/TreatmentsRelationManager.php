@@ -2,8 +2,19 @@
 
 namespace App\Filament\Resources\PatientResource\RelationManagers;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\ToggleButtons;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Actions\CreateAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -12,22 +23,22 @@ class TreatmentsRelationManager extends RelationManager
 {
     protected static string $relationship = 'treatments';
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('id')
+        return $schema
+            ->components([
+                TextInput::make('id')
                     ->disabled(),
-                Forms\Components\Section::make()
+                Section::make()
                     ->schema([
-                        Forms\Components\TextInput::make('description')
+                        TextInput::make('description')
                             ->required()
                             ->maxLength(255)
                             ->columnSpan('full'),
-                        Forms\Components\Textarea::make('notes')
+                        Textarea::make('notes')
                             ->maxLength(65535)
                             ->columnSpan('full'),
-                        Forms\Components\ToggleButtons::make('has_prescription')
+                        ToggleButtons::make('has_prescription')
                             ->required()
                             ->boolean()
                             ->options([
@@ -36,16 +47,16 @@ class TreatmentsRelationManager extends RelationManager
                             ])
                             ->inline()
                             ->grouped(),
-                        Forms\Components\TextInput::make('price')
+                        TextInput::make('price')
                             ->integer()
                             ->prefix('€')
                             ->maxValue(42949672.95),
                     ]),
-                Forms\Components\Section::make()
+                Section::make()
                     ->schema([
-                        Forms\Components\TextInput::make('created_at')
+                        TextInput::make('created_at')
                             ->disabled(),
-                        Forms\Components\TextInput::make('updated_at')
+                        TextInput::make('updated_at')
                             ->disabled(),
                     ]),
             ]);
@@ -56,13 +67,13 @@ class TreatmentsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('description')
             ->columns([
-                Tables\Columns\TextColumn::make('description'),
-                Tables\Columns\TextColumn::make('price')
+                TextColumn::make('description'),
+                TextColumn::make('price')
                     ->money('EUR')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime(),
-                Tables\Columns\IconColumn::make('has_prescription')
+                IconColumn::make('has_prescription')
                     ->boolean()
                     ->sortable(),
             ])
@@ -70,15 +81,15 @@ class TreatmentsRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                CreateAction::make(),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                EditAction::make(),
+                DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }

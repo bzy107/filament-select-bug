@@ -2,13 +2,23 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\ViewAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Infolists\Components\TextEntry;
+use App\Filament\Resources\ItemResource\Pages\ListItems;
+use App\Filament\Resources\ItemResource\Pages\CreateItem;
 use App\Filament\Resources\ItemResource\Pages;
 use App\Filament\Resources\ItemResource\RelationManagers\OrderRelationManager;
 use App\Models\Item;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Infolists;
-use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Enums\FiltersLayout;
@@ -21,16 +31,16 @@ class ItemResource extends Resource
 {
     protected static ?string $model = Item::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Textarea::make('name')
+        return $schema
+            ->components([
+                Textarea::make('name')
                     ->required()
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('price')
+                TextInput::make('price')
                     ->required()
                     ->numeric()
                     ->prefix('$'),
@@ -41,16 +51,16 @@ class ItemResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->limit(10)
                     ->sortable(),
-                Tables\Columns\TextColumn::make('price')
+                TextColumn::make('price')
                     ->money()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable(),
             ])
@@ -61,27 +71,27 @@ class ItemResource extends Resource
                         NumberConstraint::make('price'),
                     ]),
                 ], layout: FiltersLayout::AboveContent)
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            ->recordActions([
+                ViewAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
 
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return $infolist
-            ->schema([
-                Infolists\Components\TextEntry::make('name'),
-                Infolists\Components\TextEntry::make('price'),
-                Infolists\Components\TextEntry::make('created_at')
+        return $schema
+            ->components([
+                TextEntry::make('name'),
+                TextEntry::make('price'),
+                TextEntry::make('created_at')
                     ->dateTime(),
-                Infolists\Components\TextEntry::make('updated_at')
+                TextEntry::make('updated_at')
                     ->dateTime(),
             ])
             ->columns(1)
@@ -98,8 +108,8 @@ class ItemResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListItems::route('/'),
-            'create' => Pages\CreateItem::route('/create'),
+            'index' => ListItems::route('/'),
+            'create' => CreateItem::route('/create'),
             // 'edit' => Pages\EditItem::route('/{record}/edit'),
         ];
     }

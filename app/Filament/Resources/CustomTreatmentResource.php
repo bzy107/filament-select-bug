@@ -4,12 +4,29 @@ namespace App\Filament\Resources;
 
 use App\Filament\Exports\TreatmentExporter;
 use App\Filament\Resources\CustomTreatmentResource\Pages;
+use App\Filament\Resources\CustomTreatmentResource\Pages\CreateCustomTreatment;
+use App\Filament\Resources\CustomTreatmentResource\Pages\EditCustomTreatment;
+use App\Filament\Resources\CustomTreatmentResource\Pages\ListCustomTreatments;
 use App\Filament\Resources\CustomTreatmentResource\RelationManagers;
 use App\Models\Treatment;
+use BackedEnum;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ExportAction;
+use Filament\Actions\ExportBulkAction;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\ToggleButtons;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
@@ -31,25 +48,25 @@ class CustomTreatmentResource extends Resource
         return __('CustomTreatmentResource');
     }
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Select::make('patient_id')
+        return $schema
+            ->components([
+                Select::make('patient_id')
                     ->relationship('patient', 'name')
                     ->preload()
                     ->required(),
-                Forms\Components\TextInput::make('description')
+                TextInput::make('description')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('notes')
+                Textarea::make('notes')
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('price')
+                TextInput::make('price')
                     ->numeric()
                     ->prefix('$'),
-                Forms\Components\ToggleButtons::make('has_prescription')
+                ToggleButtons::make('has_prescription')
                     ->required()
                     ->boolean()
                     ->inline()
@@ -66,28 +83,28 @@ class CustomTreatmentResource extends Resource
                 }
             )
             ->columns([
-                Tables\Columns\TextColumn::make('patient.name')
+                TextColumn::make('patient.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('description')
+                TextColumn::make('description')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('notes')
+                TextColumn::make('notes')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('price')
+                TextColumn::make('price')
                     ->money()
                     ->sortable(),
-                Tables\Columns\IconColumn::make('has_prescription')
+                IconColumn::make('has_prescription')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('type')
+                TextColumn::make('type')
                     ->sortable(),
-                Tables\Columns\IconColumn::make('has_recovered')
+                IconColumn::make('has_recovered')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable(),
             ])
@@ -106,19 +123,19 @@ class CustomTreatmentResource extends Resource
                         )
                         ->constraintPickerColumns(3),
                     ],
-                    layout: Tables\Enums\FiltersLayout::AboveContentCollapsible
+                    layout: FiltersLayout::AboveContentCollapsible
             )
             ->headerActions([
-                Tables\Actions\ExportAction::make()
+                ExportAction::make()
                     ->exporter(TreatmentExporter::class),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ExportBulkAction::make()
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                    ExportBulkAction::make()
                         ->exporter(TreatmentExporter::class),
                 ]),
             ]);
@@ -134,9 +151,9 @@ class CustomTreatmentResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCustomTreatments::route('/'),
-            'create' => Pages\CreateCustomTreatment::route('/create'),
-            'edit' => Pages\EditCustomTreatment::route('/{record}/edit'),
+            'index' => ListCustomTreatments::route('/'),
+            'create' => CreateCustomTreatment::route('/create'),
+            'edit' => EditCustomTreatment::route('/{record}/edit'),
         ];
     }
 }

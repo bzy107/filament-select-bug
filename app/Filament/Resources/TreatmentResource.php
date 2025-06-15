@@ -2,12 +2,27 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\ToggleButtons;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Actions\ExportAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\ExportBulkAction;
+use App\Filament\Resources\TreatmentResource\Pages\ListTreatments;
+use App\Filament\Resources\TreatmentResource\Pages\CreateTreatment;
+use App\Filament\Resources\TreatmentResource\Pages\EditTreatment;
 use App\Filament\Exports\TreatmentExporter;
 use App\Filament\Resources\TreatmentResource\Pages;
 use App\Filament\Resources\TreatmentResource\RelationManagers;
 use App\Models\Treatment;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Filters\QueryBuilder;
@@ -21,25 +36,25 @@ class TreatmentResource extends Resource
 {
     protected static ?string $model = Treatment::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\Select::make('patient_id')
+        return $schema
+            ->components([
+                Select::make('patient_id')
                     ->relationship('patient', 'name')
                     ->preload()
                     ->required(),
-                Forms\Components\TextInput::make('description')
+                TextInput::make('description')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('notes')
+                Textarea::make('notes')
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('price')
+                TextInput::make('price')
                     ->numeric()
                     ->prefix('$'),
-                Forms\Components\ToggleButtons::make('has_prescription')
+                ToggleButtons::make('has_prescription')
                     ->required()
                     ->boolean()
                     ->inline()
@@ -51,22 +66,22 @@ class TreatmentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('patient.name')
+                TextColumn::make('patient.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('description')
+                TextColumn::make('description')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('notes')
+                TextColumn::make('notes')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('price')
+                TextColumn::make('price')
                     ->money()
                     ->sortable(),
-                Tables\Columns\IconColumn::make('has_prescription')
+                IconColumn::make('has_prescription')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable(),
             ])
@@ -85,19 +100,19 @@ class TreatmentResource extends Resource
                         )
                         ->constraintPickerColumns(3),
                     ],
-                    layout: Tables\Enums\FiltersLayout::AboveContentCollapsible
+                    layout: FiltersLayout::AboveContentCollapsible
             )
             ->headerActions([
-                Tables\Actions\ExportAction::make()
+                ExportAction::make()
                     ->exporter(TreatmentExporter::class),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ExportBulkAction::make()
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                    ExportBulkAction::make()
                         ->exporter(TreatmentExporter::class),
                 ]),
             ]);
@@ -113,9 +128,9 @@ class TreatmentResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListTreatments::route('/'),
-            'create' => Pages\CreateTreatment::route('/create'),
-            'edit' => Pages\EditTreatment::route('/{record}/edit'),
+            'index' => ListTreatments::route('/'),
+            'create' => CreateTreatment::route('/create'),
+            'edit' => EditTreatment::route('/{record}/edit'),
         ];
     }
 }

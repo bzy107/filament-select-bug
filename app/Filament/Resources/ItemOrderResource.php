@@ -2,13 +2,19 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\ExportAction;
+use Filament\Actions\EditAction;
+use App\Filament\Resources\ItemOrderResource\Pages\ListItemOrders;
+use App\Filament\Resources\ItemOrderResource\Pages\EditItemOrder;
 use App\Filament\Exports\ItemOrderExporter;
 use App\Filament\Resources\ItemOrderResource\Pages;
 use App\Filament\Resources\ItemOrderResource\RelationManagers;
 use App\Models\ItemOrder;
 use Filament\Actions\Exports\Enums\ExportFormat;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -19,17 +25,17 @@ class ItemOrderResource extends Resource
 {
     protected static ?string $model = ItemOrder::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('item.id')
+        return $schema
+            ->components([
+                TextInput::make('item.id')
                     ->disabled(),
-                Forms\Components\TextInput::make('order.id')
+                TextInput::make('order.id')
                     ->disabled(),
-                Forms\Components\TextInput::make('memo')
+                TextInput::make('memo')
                     ->nullable(),
             ]);
     }
@@ -38,30 +44,30 @@ class ItemOrderResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('item.id')
+                TextColumn::make('item.id')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('order.id')
+                TextColumn::make('order.id')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('memo')
+                TextColumn::make('memo')
                     ->sortable(),
             ])
             ->filters([
                 //
             ])
             ->headerActions([
-                Tables\Actions\ExportAction::make()
+                ExportAction::make()
                     ->exporter(ItemOrderExporter::class)
                     ->formats([
                         ExportFormat::Csv
                     ])
                     ->chunkSize(2),
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
+            ->toolbarActions([
                 //
             ]);
     }
@@ -76,8 +82,8 @@ class ItemOrderResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListItemOrders::route('/'),
-            'edit' => Pages\EditItemOrder::route('/{record}/edit'),
+            'index' => ListItemOrders::route('/'),
+            'edit' => EditItemOrder::route('/{record}/edit'),
         ];
     }
 }

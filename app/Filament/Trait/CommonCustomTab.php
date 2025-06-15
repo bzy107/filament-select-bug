@@ -2,20 +2,20 @@
 
 namespace App\Filament\Trait;
 
-use Filament\Schemas\Components\Tabs\Tab;
 use App\Models\Treatment;
 use Closure;
 use Filament\Resources\Concerns\HasTabs;
+use Filament\Schemas\Components\Tabs\Tab;
 
 
-trait CommonTab
+trait CommonCustomTab
 {
     use HasTabs;
 
     public function getTabs(): array
     {
         $tab = [];
-        $tab['all'] = Tab::make();
+        $tab['すべて'] = Tab::make();
 
         foreach (Treatment::all() as $treatment) {
             $tab[$treatment->patient->name] = Tab::make($treatment->patient->name)
@@ -26,4 +26,15 @@ trait CommonTab
     }
 
     abstract public function getTabQuery(Treatment $treatment): Closure;
+
+    public function updatedActiveTab(): void
+    {
+        session(['custom_id' => $this->activeTab]);
+        $this->resetPage();
+    }
+
+    public function getDefaultActiveTab(): string|int|null
+    {
+        return session('custom_id') ?? 'すべて';
+    }
 }

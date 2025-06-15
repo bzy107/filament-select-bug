@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\CustomTreatmentResource\Pages;
 
+use Filament\Actions\CreateAction;
 use App\Filament\Resources\CustomTreatmentResource;
 use App\Filament\Trait\CommonTab;
 use App\Models\Treatment;
@@ -17,7 +18,7 @@ class ListCustomTreatments extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 
