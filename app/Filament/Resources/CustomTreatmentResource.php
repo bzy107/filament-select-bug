@@ -32,6 +32,7 @@ use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\Builder as DatabaseQueryBuilder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CustomTreatmentResource extends Resource
@@ -79,34 +80,39 @@ class CustomTreatmentResource extends Resource
         return $table
             ->modifyQueryUsing(
                 function (Builder $query) {
-                    $query->join('patients', 'patients.id', '=', 'treatments.patient_id');
+                    $query->select(
+                        'sub.id',
+                        'sub.description',
+                        'sub.name',
+                        'sub.type',
+                    )
+                        ->fromSub(
+                            function (DatabaseQueryBuilder $query) {
+                                $query->select(
+                                    't.id',
+                                    't.description',
+                                    'p.name',
+                                    'p.type'
+                                )
+                                    ->from('treatments', 't')
+                                    ->join('patients as p', 't.patient_id', '=', 'p.id')
+                                    ->where('t.is_valid', 1);
+                            },
+                            'sub'
+                        )
+                        ->withTrashed();
                 }
             )
             ->columns([
-                TextColumn::make('patient.name')
+                TextColumn::make('id')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('description')
                     ->searchable(),
-                TextColumn::make('notes')
-                    ->searchable(),
-                TextColumn::make('price')
-                    ->money()
-                    ->sortable(),
-                IconColumn::make('has_prescription')
-                    ->boolean(),
                 TextColumn::make('name')
-                    ->sortable(),
+                    ->searchable(),
                 TextColumn::make('type')
-                    ->sortable(),
-                IconColumn::make('has_recovered')
-                    ->boolean(),
-                TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable(),
-                TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable(),
+                    ->searchable(),
             ])
             ->filters(
                 [
@@ -115,10 +121,10 @@ class CustomTreatmentResource extends Resource
                             [
                                 TextConstraint::make('description')
                                     ->label('description'),
-                                TextConstraint::make('notes')
-                                    ->label('notes'),
-                                NumberConstraint::make('price')
-                                    ->label('price'),
+                                TextConstraint::make('name')
+                                    ->label('name'),
+                                NumberConstraint::make('type')
+                                    ->label('type'),
                             ]
                         )
                         ->constraintPickerColumns(3),
