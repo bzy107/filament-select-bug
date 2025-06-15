@@ -11,6 +11,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Filters\QueryBuilder;
+use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -77,8 +78,9 @@ class TreatmentResource extends Resource
                                 TextConstraint::make('description')
                                     ->label('description'),
                                 TextConstraint::make('notes')
-                                    ->label('notes')
-                                    // ->nullable(),
+                                    ->label('notes'),
+                                NumberConstraint::make('price')
+                                    ->label('price'),
                             ]
                         )
                         ->constraintPickerColumns(3),
