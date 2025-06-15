@@ -114,6 +114,9 @@ class CustomTreatmentResource extends Resource
                 TextColumn::make('type')
                     ->searchable(),
             ])
+            ->defaultSort(
+                column: fn (Builder $query) => $query->orderBy('sub.name', 'asc')
+            )
             ->filters(
                 [
                     QueryBuilder::make()
