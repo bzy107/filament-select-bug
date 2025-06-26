@@ -2,9 +2,9 @@
 
 namespace App\Filament\Trait;
 
-use Filament\Schemas\Components\Tabs\Tab;
 use App\Models\Treatment;
 use Closure;
+use Filament\Resources\Components\Tab;
 use Filament\Resources\Concerns\HasTabs;
 
 

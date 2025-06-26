@@ -2,49 +2,50 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Schemas\Schema;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\ToggleButtons;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Filters\TernaryFilter;
-use Filament\Actions\ImportAction;
-use Filament\Actions\ExportAction;
-use Filament\Actions\EditAction;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\ExportBulkAction;
-use App\Filament\Resources\PatientSecondResource\RelationManagers\TreatmentSecondsRelationManager;
-use App\Filament\Resources\PatientSecondResource\RelationManagers\TreatmentThirdsRelationManager;
-use App\Filament\Resources\PatientSecondResource\Pages\ListPatients;
-use App\Filament\Resources\PatientSecondResource\Pages\CreatePatient;
-use App\Filament\Resources\PatientSecondResource\Pages\EditPatient;
 use App\Filament\Exports\PatientExporter;
 use App\Filament\Imports\PatientImporter;
 use App\Filament\Resources\PatientSecondResource\Pages;
+use App\Filament\Resources\PatientSecondResource\Pages\CreatePatient;
+use App\Filament\Resources\PatientSecondResource\Pages\EditPatient;
+use App\Filament\Resources\PatientSecondResource\Pages\ListPatients;
 use App\Filament\Resources\PatientSecondResource\RelationManagers;
+use App\Filament\Resources\PatientSecondResource\RelationManagers\TreatmentSecondsRelationManager;
+use App\Filament\Resources\PatientSecondResource\RelationManagers\TreatmentThirdsRelationManager;
 use App\Models\Patient;
 use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\ToggleButtons;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Tables;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ExportAction;
+use Filament\Tables\Actions\ExportBulkAction;
+use Filament\Tables\Actions\ImportAction;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 
 class PatientSecondResource extends Resource
 {
     protected static ?string $model = Patient::class;
 
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function getModelLabel(): string
     {
         return 'PatientSecond';
     }
 
-    public static function form(Schema $schema): Schema
+    public static function form(Form $schema): Form
     {
         return $schema
-            ->components([
+            ->schema([
                 TextInput::make('id')
                     ->disabled(),
                 DatePicker::make('date_of_birth')
@@ -97,10 +98,10 @@ class PatientSecondResource extends Resource
                 ExportAction::make()
                     ->exporter(PatientExporter::class),
             ])
-            ->recordActions([
+            ->actions([
                 EditAction::make(),
             ])
-            ->toolbarActions([
+            ->bulkActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                     ExportBulkAction::make()

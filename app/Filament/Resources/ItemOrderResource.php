@@ -2,21 +2,22 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Schemas\Schema;
-use Filament\Forms\Components\TextInput;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Actions\ExportAction;
-use Filament\Actions\EditAction;
-use App\Filament\Resources\ItemOrderResource\Pages\ListItemOrders;
-use App\Filament\Resources\ItemOrderResource\Pages\EditItemOrder;
 use App\Filament\Exports\ItemOrderExporter;
 use App\Filament\Resources\ItemOrderResource\Pages;
+use App\Filament\Resources\ItemOrderResource\Pages\EditItemOrder;
+use App\Filament\Resources\ItemOrderResource\Pages\ListItemOrders;
 use App\Filament\Resources\ItemOrderResource\RelationManagers;
 use App\Models\ItemOrder;
 use Filament\Actions\Exports\Enums\ExportFormat;
 use Filament\Forms;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Tables;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ExportAction;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -25,12 +26,12 @@ class ItemOrderResource extends Resource
 {
     protected static ?string $model = ItemOrder::class;
 
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    public static function form(Schema $schema): Schema
+    public static function form(Form $schema): Form
     {
         return $schema
-            ->components([
+            ->schema([
                 TextInput::make('item.id')
                     ->disabled(),
                 TextInput::make('order.id')
@@ -64,10 +65,10 @@ class ItemOrderResource extends Resource
                     ])
                     ->chunkSize(2),
             ])
-            ->recordActions([
+            ->actions([
                 EditAction::make(),
             ])
-            ->toolbarActions([
+            ->bulkActions([
                 //
             ]);
     }
