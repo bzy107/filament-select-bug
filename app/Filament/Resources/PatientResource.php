@@ -12,6 +12,7 @@ use App\Filament\Resources\PatientResource\RelationManagers\TreatmentsRelationMa
 use App\Models\Patient;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ToggleButtons;
 use Filament\Forms\Form;
@@ -55,6 +56,11 @@ class PatientResource extends Resource
                 TextInput::make('type')
                     ->required()
                     ->maxLength(255),
+                Select::make('owner_id')
+                    ->relationship('owner', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->live(),
                 ToggleButtons::make('has_recovered')
                     ->required()
                     ->boolean()
@@ -76,6 +82,9 @@ class PatientResource extends Resource
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('type')
+                    ->searchable(),
+                TextColumn::make('owner.name')
+                    ->label('owner name')
                     ->searchable(),
                 IconColumn::make('has_recovered')
                     ->boolean()

@@ -8,6 +8,7 @@ use App\Filament\Resources\TreatmentResource\Pages\CreateTreatment;
 use App\Filament\Resources\TreatmentResource\Pages\EditTreatment;
 use App\Filament\Resources\TreatmentResource\Pages\ListTreatments;
 use App\Filament\Resources\TreatmentResource\RelationManagers;
+use App\Filament\Resources\TreatmentResource\RelationManagers\PatientRelationManager;
 use App\Models\Treatment;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
@@ -45,6 +46,7 @@ class TreatmentResource extends Resource
             ->schema([
                 Select::make('patient_id')
                     ->relationship('patient', 'name')
+                    ->searchable()
                     ->preload()
                     ->required(),
                 TextInput::make('description')
@@ -122,7 +124,7 @@ class TreatmentResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            PatientRelationManager::class,
         ];
     }
 
