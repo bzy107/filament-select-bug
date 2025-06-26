@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->date('date_of_birth');
             $table->string('name')->unique();
+            $table->foreignId('owner_id')->constrained('owners')->cascadeOnDelete();
             $table->string('type');
             $table->boolean('has_recovered')->default(false);
             $table->boolean('is_valid')->default(true);

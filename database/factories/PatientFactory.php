@@ -21,6 +21,7 @@ class PatientFactory extends Factory
         return [
             'date_of_birth' => fake()->dateTimeBetween('-10year', '-5year'),
             'name' => fake()->unique()->firstName(),
+            'owner_id' => Owner::factory(),
             'type' => fake()->randomElement(['cat', 'dog', 'rabbit']),
             'has_recovered' => fake()->boolean(),
             'is_valid' => true,
