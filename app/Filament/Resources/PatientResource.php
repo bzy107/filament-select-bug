@@ -6,9 +6,11 @@ use App\Filament\Exports\PatientExporter;
 use App\Filament\Imports\PatientImporter;
 use App\Filament\Resources\PatientResource\Pages;
 use App\Filament\Resources\PatientResource\Pages\CreatePatient;
+use App\Filament\Resources\PatientResource\Pages\EditPatient;
 use App\Filament\Resources\PatientResource\Pages\ListPatients;
 use App\Filament\Resources\PatientResource\RelationManagers;
 use App\Filament\Resources\PatientResource\RelationManagers\TreatmentsRelationManager;
+use App\Models\Owner;
 use App\Models\Patient;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
@@ -34,6 +36,8 @@ use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Filters\QueryBuilder\Constraints\BooleanConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 
 class PatientResource extends Resource
 {
@@ -57,7 +61,30 @@ class PatientResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Select::make('owner_id')
-                    ->relationship('owner', 'name')
+                    ->label('owner name')
+                    // ->relationship('owner', 'name')
+                    ->options(
+                        function () {
+                            // return Owner::whereNotNull('name')
+                            //     ->orderBy('phone')
+                            //     ->pluck('name', 'id')
+                            //     ->toArray();
+                            // return Owner::select(
+                            //     DB::raw('phone'),
+                            //     DB::raw('id')
+                            // )
+                            //     ->orderBy('name')
+                            //     ->pluck('name', 'id')
+                            //     ->toArray();
+                            return Owner::select(
+                                DB::raw('name as name1'),
+                                DB::raw('name as name2')
+                            )
+                                ->orderBy('name')
+                                ->pluck('name1', 'name2')
+                                ->toArray();
+                        }
+                    )
                     ->searchable()
                     ->preload()
                     ->live(),
@@ -137,7 +164,7 @@ class PatientResource extends Resource
         return [
             'index' => ListPatients::route('/'),
             'create' => CreatePatient::route('/create'),
-            // 'edit' => Pages\EditPatient::route('/{record}/edit'),
+            'edit' => EditPatient::route('/{record}/edit'),
         ];
     }
 }

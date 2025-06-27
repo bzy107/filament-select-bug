@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\TreatmentResource\RelationManagers;
 
+use App\Models\Owner;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -14,6 +15,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\DB;
 
 class PatientRelationManager extends RelationManager
 {
@@ -29,8 +31,30 @@ class PatientRelationManager extends RelationManager
                 TextInput::make('type')
                     ->required()
                     ->maxLength(255),
-                Select::make('owner_id')
-                    ->relationship('owner', 'name')
+                // Select::make('owner_id')
+                //     ->relationship('owner', 'name')
+                //     ->searchable()
+                //     ->preload()
+                //     ->live(),
+                Select::make('owner_name')
+                    ->label('owner name')
+                    // ->relationship('owner', 'name')
+                    ->options(
+                        function () {
+                            // return Owner::whereNotNull('name')
+                            //     ->orderBy('name')
+                            //     ->pluck('name', 'id')
+                            //     ->toArray();
+                            // return Owner::select('name', 'id')->orderBy('name')->pluck('name', 'id')->toArray();
+                            return Owner::select(
+                                DB::raw('name as name1'),
+                                DB::raw('name as name2')
+                            )
+                                ->orderBy('name')
+                                ->pluck('name1', 'name2')
+                                ->toArray();
+                        }
+                    )
                     ->searchable()
                     ->preload()
                     ->live(),
