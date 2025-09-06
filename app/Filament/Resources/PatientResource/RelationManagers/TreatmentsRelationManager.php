@@ -35,7 +35,7 @@ class TreatmentsRelationManager extends RelationManager
                             ->maxLength(255),
                         Textarea::make('notes')
                             ->maxLength(65535)
-                            ->columnSpan('full'),
+                            ->columnSpanFull(),
                         ToggleButtons::make('has_prescription')
                             ->required()
                             ->boolean()
