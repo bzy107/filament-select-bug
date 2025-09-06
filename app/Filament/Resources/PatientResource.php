@@ -4,15 +4,11 @@ namespace App\Filament\Resources;
 
 use App\Filament\Exports\PatientExporter;
 use App\Filament\Imports\PatientImporter;
-use App\Filament\Resources\PatientResource\Pages;
 use App\Filament\Resources\PatientResource\Pages\CreatePatient;
 use App\Filament\Resources\PatientResource\Pages\EditPatient;
 use App\Filament\Resources\PatientResource\Pages\ListPatients;
-use App\Filament\Resources\PatientResource\RelationManagers;
 use App\Filament\Resources\PatientResource\RelationManagers\TreatmentsRelationManager;
-use App\Models\Owner;
 use App\Models\Patient;
-use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -20,8 +16,6 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ToggleButtons;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Tables;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
@@ -37,8 +31,6 @@ use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Filters\QueryBuilder\Constraints\BooleanConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\DB;
 
 class PatientResource extends Resource
 {

@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Enums\PatientType;
 use App\Models\Owner;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

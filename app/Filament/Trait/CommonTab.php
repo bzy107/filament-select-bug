@@ -7,7 +7,6 @@ use Closure;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Concerns\HasTabs;
 
-
 trait CommonTab
 {
     use HasTabs;

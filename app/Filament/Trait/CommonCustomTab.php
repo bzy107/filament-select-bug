@@ -7,7 +7,6 @@ use Closure;
 use Filament\Resources\Concerns\HasTabs;
 use Filament\Schemas\Components\Tabs\Tab;
 
-
 trait CommonCustomTab
 {
     use HasTabs;
@@ -33,7 +32,7 @@ trait CommonCustomTab
         $this->resetPage();
     }
 
-    public function getDefaultActiveTab(): string|int|null
+    public function getDefaultActiveTab(): string | int | null
     {
         return session('custom_id') ?? 'すべて';
     }

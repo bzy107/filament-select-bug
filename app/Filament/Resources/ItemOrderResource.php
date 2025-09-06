@@ -3,24 +3,17 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Exports\ItemOrderExporter;
-use App\Filament\Resources\ItemOrderResource\Pages;
 use App\Filament\Resources\ItemOrderResource\Pages\EditItemOrder;
 use App\Filament\Resources\ItemOrderResource\Pages\ListItemOrders;
-use App\Filament\Resources\ItemOrderResource\RelationManagers;
 use App\Models\ItemOrder;
 use Filament\Actions\Exports\Enums\ExportFormat;
-use Filament\Forms;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Tables;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ExportAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ItemOrderResource extends Resource
 {
@@ -61,7 +54,7 @@ class ItemOrderResource extends Resource
                 ExportAction::make()
                     ->exporter(ItemOrderExporter::class)
                     ->formats([
-                        ExportFormat::Csv
+                        ExportFormat::Csv,
                     ])
                     ->chunkSize(2),
             ])

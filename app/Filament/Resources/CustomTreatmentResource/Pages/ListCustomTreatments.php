@@ -2,12 +2,11 @@
 
 namespace App\Filament\Resources\CustomTreatmentResource\Pages;
 
-use Filament\Actions\CreateAction;
 use App\Filament\Resources\CustomTreatmentResource;
 use App\Filament\Trait\CommonTab;
 use App\Models\Treatment;
 use Closure;
-use Filament\Actions;
+use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Database\Eloquent\Builder;
 

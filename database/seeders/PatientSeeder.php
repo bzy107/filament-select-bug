@@ -2,9 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Owner;
 use App\Models\Patient;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class PatientSeeder extends Seeder

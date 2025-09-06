@@ -2,9 +2,8 @@
 
 namespace App\Filament\Resources\ItemResource\Pages;
 
-use Filament\Actions\CreateAction;
 use App\Filament\Resources\ItemResource;
-use Filament\Actions;
+use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 
 class ListItems extends ListRecords

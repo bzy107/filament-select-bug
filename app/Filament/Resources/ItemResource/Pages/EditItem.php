@@ -2,9 +2,8 @@
 
 namespace App\Filament\Resources\ItemResource\Pages;
 
-use Filament\Actions\DeleteAction;
 use App\Filament\Resources\ItemResource;
-use Filament\Actions;
+use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
 
 class EditItem extends EditRecord

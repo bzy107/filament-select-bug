@@ -21,7 +21,7 @@ trait IsValid
 
     public static function bootIsValid(): void
     {
-        static::addGlobalScope(new IsValidScope());
+        static::addGlobalScope(new IsValidScope);
     }
 
     protected function runSoftDelete(): void

@@ -2,9 +2,8 @@
 
 namespace App\Models;
 
-use Database\Factories\ItemFactory;
-use App\Models\Order;
 use App\Models\Traits\IsValid;
+use Database\Factories\ItemFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -13,6 +12,7 @@ class Item extends Model
 {
     /** @use HasFactory<ItemFactory> */
     use HasFactory;
+
     use IsValid;
 
     protected $fillable = [

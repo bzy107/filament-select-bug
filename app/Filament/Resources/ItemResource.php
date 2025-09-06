@@ -7,16 +7,12 @@ use App\Filament\Resources\ItemResource\Pages\CreateItem;
 use App\Filament\Resources\ItemResource\Pages\ListItems;
 use App\Filament\Resources\ItemResource\RelationManagers\OrderRelationManager;
 use App\Models\Item;
-use Filament\Forms;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
-use Filament\Infolists;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Tables;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
@@ -72,7 +68,7 @@ class ItemResource extends Resource
                         TextConstraint::make('name'),
                         NumberConstraint::make('price'),
                     ]),
-                ], layout: FiltersLayout::AboveContent)
+            ], layout: FiltersLayout::AboveContent)
             ->actions([
                 ViewAction::make(),
                 EditAction::make(),
@@ -103,7 +99,7 @@ class ItemResource extends Resource
     public static function getRelations(): array
     {
         return [
-            OrderRelationManager::class
+            OrderRelationManager::class,
         ];
     }
 

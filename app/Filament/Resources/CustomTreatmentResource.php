@@ -3,29 +3,21 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Exports\TreatmentExporter;
-use App\Filament\Resources\CustomTreatmentResource\Pages;
 use App\Filament\Resources\CustomTreatmentResource\Pages\CreateCustomTreatment;
 use App\Filament\Resources\CustomTreatmentResource\Pages\EditCustomTreatment;
 use App\Filament\Resources\CustomTreatmentResource\Pages\ListCustomTreatments;
-use App\Filament\Resources\CustomTreatmentResource\RelationManagers;
 use App\Models\Treatment;
-use BackedEnum;
-use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ToggleButtons;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
-use Filament\Tables;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ExportAction;
 use Filament\Tables\Actions\ExportBulkAction;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\QueryBuilder;
@@ -33,7 +25,6 @@ use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Database\Query\Builder as DatabaseQueryBuilder;
 
 class CustomTreatmentResource extends Resource
@@ -132,8 +123,8 @@ class CustomTreatmentResource extends Resource
                             ]
                         )
                         ->constraintPickerColumns(3),
-                    ],
-                    layout: FiltersLayout::AboveContentCollapsible
+                ],
+                layout: FiltersLayout::AboveContentCollapsible
             )
             ->headerActions([
                 ExportAction::make()

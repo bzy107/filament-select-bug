@@ -3,14 +3,11 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Exports\TreatmentExporter;
-use App\Filament\Resources\TreatmentResource\Pages;
 use App\Filament\Resources\TreatmentResource\Pages\CreateTreatment;
 use App\Filament\Resources\TreatmentResource\Pages\EditTreatment;
 use App\Filament\Resources\TreatmentResource\Pages\ListTreatments;
-use App\Filament\Resources\TreatmentResource\RelationManagers;
 use App\Filament\Resources\TreatmentResource\RelationManagers\PatientRelationManager;
 use App\Models\Treatment;
-use Filament\Forms;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -18,8 +15,6 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ToggleButtons;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Tables;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
@@ -32,8 +27,6 @@ use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class TreatmentResource extends Resource
 {
@@ -120,8 +113,8 @@ class TreatmentResource extends Resource
                             ]
                         )
                         ->constraintPickerColumns(3),
-                    ],
-                    layout: FiltersLayout::AboveContentCollapsible
+                ],
+                layout: FiltersLayout::AboveContentCollapsible
             )
             ->headerActions([
                 ExportAction::make()

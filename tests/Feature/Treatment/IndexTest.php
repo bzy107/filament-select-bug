@@ -2,6 +2,7 @@
 
 use App\Filament\Resources\TreatmentResource;
 use App\Models\Treatment;
+
 use function Pest\Livewire\livewire;
 
 test('表示されること', function () {

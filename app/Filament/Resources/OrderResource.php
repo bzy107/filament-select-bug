@@ -2,29 +2,22 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\OrderResource\Pages;
 use App\Filament\Resources\OrderResource\Pages\AssociateOrder;
 use App\Filament\Resources\OrderResource\Pages\CreateOrder;
 use App\Filament\Resources\OrderResource\Pages\EditOrder;
 use App\Filament\Resources\OrderResource\Pages\ListOrders;
-use App\Filament\Resources\OrderResource\RelationManagers;
 use App\Filament\Resources\OrderResource\RelationManagers\ItemRelationManager;
 use App\Models\Order;
-use Filament\Forms;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Tables;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class OrderResource extends Resource
 {
@@ -41,12 +34,12 @@ class OrderResource extends Resource
                     ->hidden(fn (string $operation) => $operation === 'create'),
                 Section::make()
                     ->schema([
-                    TextInput::make('type')
-                        ->required()
-                        ->maxLength(255),
-                    TextInput::make('date')
-                        ->required()
-                        ->maxLength(255),
+                        TextInput::make('type')
+                            ->required()
+                            ->maxLength(255),
+                        TextInput::make('date')
+                            ->required()
+                            ->maxLength(255),
                     ])
                     ->columns(2),
                 Section::make()
@@ -97,7 +90,7 @@ class OrderResource extends Resource
     public static function getRelations(): array
     {
         return [
-            ItemRelationManager::class
+            ItemRelationManager::class,
         ];
     }
 
