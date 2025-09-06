@@ -19,7 +19,7 @@ class Order extends Model
         'date',
     ];
 
-    public function Items(): BelongsToMany
+    public function items(): BelongsToMany
     {
         return $this->belongsToMany(Item::class);
     }
