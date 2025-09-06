@@ -11,6 +11,7 @@ use App\Filament\Resources\TreatmentResource\RelationManagers;
 use App\Filament\Resources\TreatmentResource\RelationManagers\PatientRelationManager;
 use App\Models\Treatment;
 use Filament\Forms;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -44,25 +45,41 @@ class TreatmentResource extends Resource
     {
         return $schema
             ->schema([
-                Select::make('patient_id')
-                    ->relationship('patient', 'name')
-                    ->searchable()
-                    ->preload()
-                    ->required(),
-                TextInput::make('description')
-                    ->required()
-                    ->maxLength(255)
-                    ->columnSpanFull(),
-                Textarea::make('notes')
-                    ->columnSpanFull(),
-                TextInput::make('price')
-                    ->numeric()
-                    ->prefix('$'),
-                ToggleButtons::make('has_prescription')
-                    ->required()
-                    ->boolean()
-                    ->inline()
-                    ->grouped(),
+                TextInput::make('id')
+                    ->disabled()
+                    ->hidden(fn (string $operation) => $operation === 'create'),
+                Section::make()
+                    ->schema([
+                        Select::make('patient_id')
+                            ->relationship('patient', 'name')
+                            ->searchable()
+                            ->preload()
+                            ->required(),
+                        TextInput::make('description')
+                            ->required()
+                            ->maxLength(255)
+                            ->columnSpanFull(),
+                        Textarea::make('notes')
+                            ->columnSpanFull(),
+                        TextInput::make('price')
+                            ->numeric()
+                            ->prefix('$'),
+                        ToggleButtons::make('has_prescription')
+                            ->required()
+                            ->boolean()
+                            ->inline()
+                            ->grouped(),
+                    ])
+                    ->columns(2),
+                Section::make()
+                    ->schema([
+                        TextInput::make('created_at')
+                            ->disabled(),
+                        TextInput::make('updated_at')
+                            ->disabled(),
+                    ])
+                    ->hidden(fn (string $operation) => $operation === 'create')
+                    ->columns(2),
             ]);
     }
 
