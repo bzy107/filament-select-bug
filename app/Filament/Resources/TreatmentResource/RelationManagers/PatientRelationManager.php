@@ -91,7 +91,8 @@ class PatientRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                Tables\Actions\CreateAction::make()
+                    ->hidden(fn ($livewire) => $livewire->getOwnerRecord()?->patient),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
