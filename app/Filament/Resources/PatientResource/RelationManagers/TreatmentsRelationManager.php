@@ -2,20 +2,17 @@
 
 namespace App\Filament\Resources\PatientResource\RelationManagers;
 
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\CreateAction;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
-use Filament\Forms;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ToggleButtons;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Schemas\Components\Section;
-use Filament\Schemas\Schema;
-use Filament\Tables;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\CreateAction;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -29,7 +26,8 @@ class TreatmentsRelationManager extends RelationManager
         return $schema
             ->schema([
                 TextInput::make('id')
-                    ->disabled(),
+                    ->disabled()
+                    ->hidden(fn (string $operation) => $operation === 'create'),
                 Section::make()
                     ->schema([
                         TextInput::make('description')
@@ -59,7 +57,8 @@ class TreatmentsRelationManager extends RelationManager
                             ->disabled(),
                         TextInput::make('updated_at')
                             ->disabled(),
-                    ]),
+                    ])
+                    ->hidden(fn (string $operation) => $operation === 'create'),
             ]);
     }
 
