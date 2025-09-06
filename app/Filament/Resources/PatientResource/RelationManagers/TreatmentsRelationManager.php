@@ -32,8 +32,7 @@ class TreatmentsRelationManager extends RelationManager
                     ->schema([
                         TextInput::make('description')
                             ->required()
-                            ->maxLength(255)
-                            ->columnSpan('full'),
+                            ->maxLength(255),
                         Textarea::make('notes')
                             ->maxLength(65535)
                             ->columnSpan('full'),
@@ -50,7 +49,8 @@ class TreatmentsRelationManager extends RelationManager
                             ->integer()
                             ->prefix('€')
                             ->maxValue(42949672.95),
-                    ]),
+                    ])
+                    ->columns(2),
                 Section::make()
                     ->schema([
                         TextInput::make('created_at')
@@ -58,7 +58,8 @@ class TreatmentsRelationManager extends RelationManager
                         TextInput::make('updated_at')
                             ->disabled(),
                     ])
-                    ->hidden(fn (string $operation) => $operation === 'create'),
+                    ->hidden(fn (string $operation) => $operation === 'create')
+                    ->columns(2),
             ]);
     }
 

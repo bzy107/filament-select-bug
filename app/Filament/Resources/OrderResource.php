@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\OrderResource\Pages;
+use App\Filament\Resources\OrderResource\Pages\AssociateOrder;
 use App\Filament\Resources\OrderResource\Pages\CreateOrder;
 use App\Filament\Resources\OrderResource\Pages\EditOrder;
 use App\Filament\Resources\OrderResource\Pages\ListOrders;
@@ -10,11 +11,13 @@ use App\Filament\Resources\OrderResource\RelationManagers;
 use App\Filament\Resources\OrderResource\RelationManagers\ItemRelationManager;
 use App\Models\Order;
 use Filament\Forms;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
@@ -33,12 +36,28 @@ class OrderResource extends Resource
     {
         return $schema
             ->schema([
-                TextInput::make('type')
-                    ->required()
-                    ->maxLength(255),
-                TextInput::make('date')
-                    ->required()
-                    ->maxLength(255),
+                TextInput::make('id')
+                    ->disabled()
+                    ->hidden(fn (string $operation) => $operation === 'create'),
+                Section::make()
+                    ->schema([
+                    TextInput::make('type')
+                        ->required()
+                        ->maxLength(255),
+                    TextInput::make('date')
+                        ->required()
+                        ->maxLength(255),
+                    ])
+                    ->columns(2),
+                Section::make()
+                    ->schema([
+                        TextInput::make('created_at')
+                            ->disabled(),
+                        TextInput::make('updated_at')
+                            ->disabled(),
+                    ])
+                    ->hidden(fn (string $operation) => $operation === 'create')
+                    ->columns(2),
             ]);
     }
 
@@ -61,6 +80,11 @@ class OrderResource extends Resource
                 //
             ])
             ->actions([
+                Action::make('associate')
+                    ->icon('heroicon-m-pencil-square')
+                    ->action(function ($record) {
+                        return redirect(self::getUrl('associate', ['record' => $record]));
+                    }),
                 EditAction::make(),
             ])
             ->bulkActions([
@@ -83,6 +107,7 @@ class OrderResource extends Resource
             'index' => ListOrders::route('/'),
             'create' => CreateOrder::route('/create'),
             'edit' => EditOrder::route('/{record}/edit'),
+            'associate' => AssociateOrder::route('/{record}/associate'),
         ];
     }
 }

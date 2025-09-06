@@ -6,6 +6,8 @@ use App\Filament\Resources\OwnerResource\Pages;
 use App\Filament\Resources\OwnerResource\RelationManagers;
 use App\Models\Owner;
 use Filament\Forms;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -23,17 +25,33 @@ class OwnerResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('email')
-                    ->email()
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('phone')
-                    ->tel()
-                    ->required()
-                    ->maxLength(255),
+                TextInput::make('id')
+                    ->disabled()
+                    ->hidden(fn (string $operation) => $operation === 'create'),
+                Section::make()
+                    ->schema([
+                        TextInput::make('email')
+                            ->email()
+                            ->required()
+                            ->maxLength(255),
+                        TextInput::make('name')
+                            ->required()
+                            ->maxLength(255),
+                        TextInput::make('phone')
+                            ->tel()
+                            ->required()
+                            ->maxLength(255),
+                    ])
+                    ->columns(2),
+                Section::make()
+                    ->schema([
+                        TextInput::make('created_at')
+                            ->disabled(),
+                        TextInput::make('updated_at')
+                            ->disabled(),
+                    ])
+                    ->hidden(fn (string $operation) => $operation === 'create')
+                    ->columns(2),
             ]);
     }
 

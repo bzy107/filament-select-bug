@@ -51,7 +51,8 @@ class TreatmentResource extends Resource
                     ->required(),
                 TextInput::make('description')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->columnSpanFull(),
                 Textarea::make('notes')
                     ->columnSpanFull(),
                 TextInput::make('price')

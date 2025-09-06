@@ -14,6 +14,7 @@ use App\Models\Owner;
 use App\Models\Patient;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ToggleButtons;
@@ -50,49 +51,45 @@ class PatientResource extends Resource
         return $schema
             ->schema([
                 TextInput::make('id')
-                    ->disabled(),
-                DatePicker::make('date_of_birth')
-                    ->required(),
-                TextInput::make('name')
-                    ->required()
-                    ->unique(ignoreRecord: true)
-                    ->maxLength(255),
-                TextInput::make('type')
-                    ->required()
-                    ->maxLength(255),
-                Select::make('owner_id')
-                    ->label('owner name')
-                    // ->relationship('owner', 'name')
-                    ->options(
-                        function () {
-                            // return Owner::whereNotNull('name')
-                            //     ->orderBy('phone')
-                            //     ->pluck('name', 'id')
-                            //     ->toArray();
-                            // return Owner::select(
-                            //     DB::raw('phone'),
-                            //     DB::raw('id')
-                            // )
-                            //     ->orderBy('name')
-                            //     ->pluck('name', 'id')
-                            //     ->toArray();
-                            return Owner::select(
-                                DB::raw('name as name1'),
-                                DB::raw('name as name2')
-                            )
-                                ->orderBy('name')
-                                ->pluck('name1', 'name2')
-                                ->toArray();
-                        }
+                    ->disabled()
+                    ->hidden(fn (string $operation) => $operation === 'create'),
+                Section::make()
+                    ->schema(
+                        [
+                            DatePicker::make('date_of_birth')
+                                ->required(),
+                            TextInput::make('name')
+                                ->required()
+                                ->unique(ignoreRecord: true)
+                                ->maxLength(255),
+                            TextInput::make('type')
+                                ->required()
+                                ->maxLength(255),
+                            Select::make('owner_id')
+                                ->label('owner name')
+                                ->relationship('owner', 'name')
+                                ->searchable()
+                                ->preload()
+                                ->live(),
+                            ToggleButtons::make('has_recovered')
+                                ->required()
+                                ->boolean()
+                                ->inline()
+                                ->grouped(),
+                        ]
                     )
-                    ->searchable()
-                    ->preload()
-                    ->live(),
-                ToggleButtons::make('has_recovered')
-                    ->required()
-                    ->boolean()
-                    ->inline()
-                    ->grouped(),
+                    ->columns(2),
+                Section::make()
+                    ->schema(
+                        [
+                            TextInput::make('created_at')
+                                ->disabled(),
+                            TextInput::make('updated_at')
+                                ->disabled(),
+                        ]
+                    )
+                    ->columns(2)
+                    ->hidden(fn (string $operation) => $operation === 'create'),
             ]);
     }
 
