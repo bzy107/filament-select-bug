@@ -25,7 +25,7 @@ class PatientImporter extends Importer
                         'nullable',
                         'integer',
                         Rule::exists(Patient::class, 'id')
-                            ->whereNull('deleted_at'),
+                            ->where('is_valid', true),
                     ]
                 ),
             ImportColumn::make('date_of_birth')
@@ -42,7 +42,7 @@ class PatientImporter extends Importer
                         'required',
                         'max:255',
                         Rule::unique(Patient::class)
-                            ->whereNull('deleted_at')
+                            ->where('is_valid', true)
                             ->ignore($record->id),
                     ]
                 ),
@@ -94,7 +94,7 @@ class PatientImporter extends Importer
         Validator::make(
             $this->data,
             [
-                'name.unique' => [
+                'name' => [
                     Rule::unique(Patient::class)
                         ->ignore($this->data['id']),
                 ],
